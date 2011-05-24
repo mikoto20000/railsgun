@@ -1,0 +1,45 @@
+INSERT INTO settings VALUES (1,'ui_theme','watersky',current_date); 
+INSERT INTO settings VALUES (2,'app_title','とある券売機の超導入砲',current_date);
+INSERT INTO settings VALUES (3,'default_language','ja',current_date);
+INSERT INTO settings VALUES (4,'welcome_text','
+h1. とある発券機の超導入砲
+
+　近年注目を集めるチケットシステムですが、環境構築をするとなるとそれなりに面倒です。RedmineとRedmineからフォークされたChiliProjectを導入するには、Rubyの知識が必要であったり、また、GitやSubversionなどのバージョン管理システムを利用するには、その知識が必要であったりととにかく面倒です。「とある発券機の超導入法」は、目んどくさがり屋のための、Redmine/ChiliProjectの構築ソリューションです。
+
+h1. 特徴
+
+次のような特徴があります。
+
+h3. ChiliProject(Redmine)とそれに必要なMySQLやRubyライブラリを一括してセットアップ
+
+ChiliProject(Redmine)に必要なソフトウェアを一括でセットアップすることができます。もう、「Rubyがわからないので、Redmineなんてつかえませーん。ぷんぷくりーん。」と言うこともなくなります。
+
+h3. バージョン管理システム(Subversion/Git)も同時にセットアップ
+
+バージョン管理システムは、もはやソフトウェア開発にとって必須と言えるでしょう。しかしながら、mod_dav_svnやgit-http-backendの設定は、新入社員では難しいことでしょう。とある(以下略)はバージョン管理システムも一緒にセットアップしてくれます。
+
+h3. ChiliProject(Redmine)とバージョン管理システ厶(Subversion/Git)のアカウントの連携
+
+ChiliProject(Redmine)は、データベースで独自のアカウント管理機構を持っています。LDAPなどを利用することもできますが、正直素人には面倒杉ます。とある(以下略）では、Git/SubversionでもChiliProject(Redmine)のアカウントを利用して認証することができます。
+
+
+h1. 使い方
+
+デフォルトでは管理者が定義されています。管理者ユーザとして、下記のユーザ名、パスワードでログインできます。
+
+|_. ユーザ名|admin|
+|_. パスワード|admin|
+
+プロジェクトの作成は、管理者でログインしてプロジェクトの作成から行ってください。リポジトリの作成は、サーバのコンソール上で、
+<pre>
+ # /opt/railsgun/bin/railsgun-create-repository 
+</pre>
+コマンドで作成してください。リポジトリを作成したら、プロジェクトに設定するのを忘れないようにしましょう。
+',current_date);
+INSERT INTO settings VALUES (5,'gravatar_enabled',1,current_date);
+UPDATE users SET language='ja' WHERE login='admin';
+
+
+
+
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /opt/railsgun
+ruby script/runner "Repository.fetch_changesets" -e production

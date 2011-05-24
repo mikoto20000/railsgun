@@ -1,0 +1,72 @@
+# とある発券機の超導入砲
+
+## これはなに?
+
+近年、Ruby on Railsで実装されたプロジェクト管理ツールとしてRedmineが注目を浴びています。
+Redmineを導入するためには、gemの知識が必要だったり、Subversion/Gitなどのバージョン管理システムとのアカウントとの連携の設定が面倒だったり、快適な環境を構築するのは手間が掛かります。
+
+また、Redmineの開発体制に不満を持った開発者がChiliProjectとしてフォークしたりと注目を浴びています。
+
+Railsgunは、RedmineもしくはChiliProjectをLinux上に簡単にインストールし環境を構築するインストーラです。
+
+なお、読みは「とある発券機(チケットシステム)の超導入砲(レールズガン)」です。
+
+## 特徴
+
+Railsgunは次のような特徴を持っています。
+
+ * 必要なソフトウェアを楽々セットアップ
+  * インストーラを叩くだけで、Rails,MySQL,Subversion,Gitなど必要なソフトウェアを
+    インストール
+  * Apacheの設定も行ってくれます。RailsアプリをApache上で公開するmod_passengerや
+    MySQLに格納されたRedmineの認証情報でSubversionやGitの認証できるようにする
+    mod_auth_mysqlの設定も行います。
+ * 綺麗なテーマ
+   * ChiliProjectで採用されているアイコン化された綺麗なテーマをデフォルトで利用します。
+   * ユーザのアイコン表示もデフォルトで有効になっています。
+ * CUI環境でインストール可能
+  * BitNamiなどGUI環境でRedmineをインストールできるインストーラはありますが、正直
+    サーバにGUIは入れたくないです。RailsgunはCUIでインストールすることができます。
+    サーバ環境に最適です。
+  * クラウドやホスティングサービスでの利用にも最適です。
+
+## 同梱するプラグイン
+
+Railsgunは、次のRedmineプラグインを同梱しています。
+
+ * Redmine Wiki Extensions
+  * http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions
+ * Redmine Issue Extensions
+  * http://www.r-labs.org/projects/r-labs/wiki/Issue_Extensions
+ * Advanced Roadmap
+  * https://ociotec.com/redmine/projects/advanced-roadmap/wiki
+
+## 動作環境
+
+RHEL6.0互換環境(OEL6.0,SL6.0,CentOS6.0など)
+
+## 使い方
+
+ # ./railsgun-setup
+
+でチケットシステム、バージョン管理システムをインストールします。redmine/chiliprojectを選択することができます。
+
+インストールが終了すると、http://localhost/にWebブラウザで接続するとチケットシステムにアクセスできます。管理者権限でログインすると、設定やプロジェクトの作成を行うことができます。管理者情報は下記の通りです。
+
+### デフォルトの管理者情報
+
+ * ユーザ名: admin
+ * パスワード: admin
+
+リポジトリを作成するには、次のようにrailsgun-create-repositoryコマンドを利用します。
+
+### Gitリポジトリの作成
+
+ # /opt/railsgun/bin/railsgun-create-repository git myrepo(リポジトリ名)
+
+### Subversionリポジトリの作成
+
+ # /opt/railsgun/bin/railsgun-create-repository svn myproject(リポジトリ名)
+
+作成したリポジトリをRedmine/ChiliProjectのプロジェクトとして登録するのを忘れないようにしてください。
+

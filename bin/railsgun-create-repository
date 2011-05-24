@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if [ -f /etc/debian_version ]
+then
+    OS='debian'
+    APACHE_USER=www-data
+elif [ -f /etc/redhat-release ]
+then
+   OS='rhel'
+   APACHE_USER=apache
+fi
+
+RAILSGUN_VAR=/var/opt/railsgun
+RAILSGUN_HOME=/opt/railsgun
+
+if [ $# != 2 ]
+then
+    echo "これはバージョン管理のリポジトリを作成するコマンドです。"
+    echo "usage: railsgun-create-erepository <リポジトリタイプ> <リポジトリ名>"
+    echo ""
+    echo "リポジトリ名はsvnもしくはgitを利用できます"
+    exit 
+fi
+
+TYPE=$1
+NAME=$2
+
+
+if [ $TYPE = 'svn' ]
+then
+    svnadmin create $RAILSGUN_VAR/svn/$NAME
+    cp $RAILSGUN_HOME/hooks/svn/post-commit $RAILSGUN_VAR/svn/$NAME/hooks/
+    chmod a+x $RAILSGUN_VAR/svn/$NAME/hooks/post-commit
+    chown $APACHE_USER.$APACHE_USER -R $RAILSGUN_VAR/svn/$NAME
+
+fi
+if [ $TYPE = 'git' ]
+then
+    git init --bare $RAILSGUN_VAR/git/$NAME
+    git --git-dir=$RAILSGUN_VAR/git/$NAME update-server-info  
+    cp $RAILSGUN_HOME/hooks/git/post-receive $RAILSGUN_VAR/git/$NAME/hooks/
+    chmod a+x $RAILSGUN_VAR/git/$NAME/hooks/post-receive
+    chown $APACHE_USER.$APACHE_USER -R $RAILSGUN_VAR/git/$NAME
+fi

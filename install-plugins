@@ -1,0 +1,39 @@
+#!/bin/bash
+
+###############################################
+# redmine_wiki_extension
+###############################################
+hg clone https://bitbucket.org/haru_iida/redmine_wiki_extensions
+rm -fr $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
+mv -f redmine_wiki_extensions $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
+
+
+###############################################
+# redmine_issue_extensions
+###############################################
+wget -O redmine_issue_extensions.zip http://redmineissueext.googlecode.com/files/redmine_issue_extensions-0.0.7.1.zip
+yes | unzip redmine_issue_extensions.zip
+rm -fr $INSTALL_DIR/vendor/plugins/redmine_issue_extensions
+mv -f redmine_issue_extensions $INSTALL_DIR/vendor/plugins/redmine_issue_extensions
+rm -fr redmine_issue_extensions.zip
+
+###############################################
+# advanced_roadmap 
+###############################################
+wget http://ociotec.com/redmine/attachments/download/148/advanced_roadmap.0.5.0.tar.gz
+tar zxvf advanced_roadmap.0.5.0.tar.gz 
+rm -fr $INSTALL_DIR/vendor/plugins/advanced_roadmap
+mv -f advanced_roadmap.0.5.0 $INSTALL_DIR/vendor/plugins/advanced_roadmap
+rm -f advanced_roadmap.0.5.0.tar.gz 
+
+
+###############################################
+# setup plugins
+###############################################
+
+pushd .
+
+cd $INSTALL_DIR
+rake db:migrate_plugins RAILS_ENV=production 
+
+popd

@@ -1,0 +1,10 @@
+production-sqlite:
+  adapter: sqlite3
+  database: db/railsgun.sqlite3
+
+production:
+  adapter: mysql
+  database: railsgun
+  host: localhost
+  username: railsgun
+  password: railsgun

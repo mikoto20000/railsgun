@@ -1,0 +1,15 @@
+mysql
+mysql-server
+ruby
+ruby-devel
+rubygem-rake
+rubygem-rack
+httpd-devel
+gcc-c++
+apr-devel
+openssl-devel
+curl-devel
+ruby-mysql
+mod_auth_mysql
+mod_dav_svn
+mod_wsgi 

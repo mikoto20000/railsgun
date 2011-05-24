@@ -1,0 +1,209 @@
+#!/bin/bash
+############################################################
+# Smart installer for redmine/chiliproject.
+############################################################
+
+#TYPE=chiliproject
+VERSION=1.2.0
+export INSTALL_DIR=/opt/railsgun
+
+if [ -f /etc/debian_version ]
+then
+    OS='debian'
+    APACHE_USER=www-data
+    echo "Debian / Ubuntu が検出されました。"
+elif [ -f /etc/redhat-release ]
+then
+    APACHE_USER=apache
+    CHK=`egrep "CentOS release 5|Red Hat Enterprise Linux .* 5" /etc/redhat-release`
+    if [ "$CHK" != '' ]
+    then
+#        OS='rhel5'
+#        echo "RHEL 5.x / CentOS 5.x / OEL 5.xが検出されました。"
+        echo 
+
+    else
+        OS='rhel6'
+        echo "RHEL 6.x / CentOS 6.x / OEL 6.xが検出されました。"        
+    fi
+else
+    echo "サポートされていないOSです。"
+    echo "現在サポートされいているOSは、"
+    echo ""
+    echo "  * Ubuntu 10.10 Server"
+    echo "  * Debian GNU/Linux 6.0"
+    echo "  * RedHat Enterprise Linux 6.0"
+    echo "  * Oracle Enterprise Linux 6.0"
+    echo ""
+    echo "です。"
+    exit
+fi
+
+
+if [ "$USER" != 'root' ]
+then
+    echo "rootでコマンドを実行してください。"
+fi
+
+
+
+
+echo "ホスト名を入力してください。ホスト名はApacheのバーチャルホストで利用されます。"
+echo -n "ホスト名: "
+read HOSTNAME
+
+#if [ $TYPE = "" ]
+#then
+    echo "redmine もしくは chiliprojectを選択してください。"
+    echo 
+    echo " 1. chiliproject"
+    echo " 2. redmine"
+    echo 
+    echo -n "番号を入力してください: "
+
+    read TYPE
+#fi
+
+
+echo "--" $TYPE
+
+case $TYPE in
+    1|chiliproject)
+        TYPE=chiliproject
+        ;;
+
+    2|redmine)
+        TYPE=redmine	
+        ;;
+    *)
+        echo "未定義のケットシステムが選択されました。"
+        echo "1もしくは2を入力してください。"
+        exit 1
+        ;;
+esac
+
+
+## install packages
+case $OS in
+    debian)
+        apt-get update
+        apt-get -y install `cat pkglist.debian`
+        service mysql start
+        ;;
+    
+    rhel6)  
+        if [ ! -f /etc/yum.repos.d/epel.repo ]
+        then 
+            rpm -Uvh http://download.fedora.redhat.com/pub/epel/6/x86_64/epel-release-6-5.noarch.rpm
+        fi
+        yum -y --nogpgcheck install `cat pkglist.rhel6`
+        service mysqld start
+        ;;        
+esac        
+
+
+
+gem install i18n --version=0.4.2
+gem install rails --version=2.3.5
+gem install rack -v=1.0.1
+
+
+case $OS in
+    rhel6|debian)  
+        if [ ! -f /usr/lib/ruby/gems/1.8/gems/passenger-3.*/ext/apache2/mod_passenger.so ]
+        then
+            gem install passenger
+            passenger-install-apache2-module --auto
+        fi
+        ;;
+esac
+
+
+/etc/init.d/mysql start
+mysql < config/createdb.sql 
+
+# install chiliproject
+mkdir -p $INSTALL_DIR
+
+if [ $TYPE = "chiliproject" ]
+then
+  if [ ! -f chiliproject-$VERSION.tar.gz ]
+  then
+    wget https://www.chiliproject.org/attachments/download/74/chiliproject-$VERSION.tar.gz
+  fi
+  tar zxvf chiliproject-$VERSION.tar.gz
+  cp -fr chiliproject-$VERSION/* $INSTALL_DIR/
+fi
+if [ $TYPE = "redmine" ]
+then
+  if [ ! -f redmine ]
+  then
+    svn co http://redmine.rubyforge.org/svn/branches/1.2-stable redmine
+  fi
+  cp -fr redmine/* $INSTALL_DIR/
+fi
+
+cp config/database.yml $INSTALL_DIR/config/
+cp -r theme/* $INSTALL_DIR/public/themes/
+
+# setup
+pushd . 
+cd $INSTALL_DIR
+rake generate_session_store
+RAILS_ENV=production rake db:migrate
+echo "ja" |RAILS_ENV=production rake redmine:load_default_data
+
+popd
+
+
+# Customize
+mysql railsgun < config/init.mysql
+# sqlite3 $INSTALL_DIR/db/railsgun.sqlite < config/init.mysql
+
+# install plugins
+bash ./install-plugins
+
+mkdir -p /etc/opt/railsgun
+cp -fr etc/* /etc/opt/railsgun/
+
+mkdir -p $INSTALL_DIR/bin
+mkdir -p /var/opt/railsgun/git /var/opt/railsgun/svn
+cp -fr bin/*  $INSTALL_DIR/bin/
+cp -fr hooks $INSTALL_DIR/
+
+case $OS in
+
+    debian)
+        if [ ! -f /etc/apache2/sites-available/railsgun ]
+        then
+            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.debian.conf > /etc/apache2/sites-available/railsgun
+            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.debian.conf > /etc/apache2/sites-available/vcs
+        fi
+        a2enmod expires
+        a2enmod dav_fs
+        a2ensite railsgun
+        a2ensite vcs
+        service apache2 stop
+        service apache2 start
+        ;;
+    rhel6)
+        if [ ! -f /etc/httpd/conf.d/kanon.conf ]
+        then
+            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf > /etc/httpd/conf.d/railsgun.conf
+            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf
+        fi
+        echo 0 > /selinux/enforce
+        CHK=`grep SELINUX=enforcing /etc/selinux/config` 
+        if [ ! "$CHK" = '' ]   
+        then
+            cat /etc/selinux/config |sed 's/SELINUX=enforcing/SELINUX=disabled/' > /tmp/selinux_config
+            mv /tmp/selinux_config /etc/selinux/config 
+        fi
+        echo "SELinuxが無効化されました"
+        service httpd stop
+        service httpd start
+        ;;
+    *)
+        ;;
+        
+esac

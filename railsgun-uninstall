@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mysql railsgun -e "drop database railsgun" 
+rm -fr /opt/railsgun /var/opt/railsgun
+

@@ -1,0 +1,8 @@
+INSERT INTO settings VALUES (1,'ui_theme','squeejee',date());
+INSERT INTO settings VALUES (2,'app_title','Railsgun',date());
+INSERT INTO settings VALUES (3,'default_language','ja',date());
+INSERT INTO settings VALUES (4,'welcome_text','Railsgunのトップページです。',date());
+INSERT INTO settings VALUES (5,'gravatar_enabled',1,date());
+
+
+

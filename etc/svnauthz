@@ -1,0 +1,21 @@
+#グループの設定
+[groups]
+#developer=harry,sarry
+#observer=john,greg
+
+# 全てのプロジェクトに対する共通設定
+[/]
+admin = rw
+* = rw
+guest = r
+
+# サンプルプロジェクトに対する設定
+[SampleProject:/]
+guest = rw
+#@developer = rw
+#@observer= r
+
+# 特定のパスの設定
+#[SampleProject:/tags]
+#* = r
+#admin = rw
