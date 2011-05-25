@@ -20,5 +20,11 @@
 #main-menu li a.files,     #main-menu li a.files:hover     { background-image: url(../images/icons/folder_page_white.png); }
 #main-menu li a.settings,  #main-menu li a.settings:hover  { background-image: url(../images/icons/cog.png); }
 
+#top-menu a.home { background-image: url(../images/home.png); }
+#top-menu a.my-page { background-image: url(../../../images/user.png); }
+#top-menu a.projects { background-image: url(../../../images/projects.png); }
+#top-menu a.administration { background-image: url(../images/wrench.png); }
+#top-menu a.help { background-image: url(../../../images/help.png); }
+
 /** plugins support */
 #main-menu li a.hudson,    #main-menu li a.hudson:hover    { background-image: url(../images/icons/server.png); }

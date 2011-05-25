@@ -107,6 +107,14 @@ div.flash, .nodata {
 
 
 /* Menu */
+#top-menu a.home, #top-menu a.my-page, #top-menu a.projects, #top-menu a.administration, #top-menu a.help { 
+    background-position: 0% 40%;
+    background-repeat: no-repeat;
+    padding-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 3px;
+}
+
 #main-menu {
 	left: 0px;
 }
