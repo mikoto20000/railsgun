@@ -4,7 +4,11 @@
 ############################################################
 
 #TYPE=chiliproject
-VERSION=1.2.0
+CP_VER=1.2.0
+CP_ARC=https://www.chiliproject.org/attachments/download/74/chiliproject-1.2.0.tar.gz
+RM_VER=1.2.0
+RM_ARC=http://rubyforge.org/frs/download.php/74944/redmine-1.2.0.tar.gz
+
 export INSTALL_DIR=/opt/railsgun
 
 if [ -f /etc/debian_version ]
@@ -61,11 +65,10 @@ read HOSTNAME
     echo 
     echo -n "番号を入力してください: "
 
+
     read TYPE
 #fi
 
-
-echo "--" $TYPE
 
 case $TYPE in
     1|chiliproject)
@@ -127,20 +130,24 @@ mkdir -p $INSTALL_DIR
 
 if [ $TYPE = "chiliproject" ]
 then
-  if [ ! -f chiliproject-$VERSION.tar.gz ]
+  if [ ! -f chiliproject-$CP_VER.tar.gz ]
   then
-    wget https://www.chiliproject.org/attachments/download/74/chiliproject-$VERSION.tar.gz
+    wget $CP_ARC
   fi
-  tar zxvf chiliproject-$VERSION.tar.gz
-  cp -fr chiliproject-$VERSION/* $INSTALL_DIR/
+  tar zxvf chiliproject-$CP_VER.tar.gz
+  cp -fr chiliproject-$CP_VER/* $INSTALL_DIR/
+  rm -fr chiliproject-$CP_VER
 fi
 if [ $TYPE = "redmine" ]
 then
-  if [ ! -f redmine ]
+
+  if [ ! -f redmine-$RM_VER.tar.gz ]
   then
-    svn co http://redmine.rubyforge.org/svn/branches/1.2-stable redmine
+    wget $RM_ARC
   fi
-  cp -fr redmine/* $INSTALL_DIR/
+  tar zxvf redmine-$RM_VER.tar.gz
+  cp -fr redmine-$RM_VER/* $INSTALL_DIR/
+  rm -fr redmine-$RM_VER
 fi
 
 cp config/database.yml $INSTALL_DIR/config/
