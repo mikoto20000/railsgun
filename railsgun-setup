@@ -1,3 +1,4 @@
+
 #!/bin/bash
 ############################################################
 # Smart installer for redmine/chiliproject.
@@ -106,7 +107,6 @@ esac
 
 
 gem install i18n --version=0.4.2
-gem install rails --version=2.3.11
 gem install rack -v=1.0.1
 
 
