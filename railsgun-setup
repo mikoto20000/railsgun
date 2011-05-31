@@ -1,4 +1,3 @@
-
 #!/bin/bash
 ############################################################
 # Smart installer for redmine/chiliproject.
@@ -57,8 +56,8 @@ echo "ホスト名を入力してください。ホスト名はApacheのバー�
 echo -n "ホスト名: "
 read HOSTNAME
 
-if [ $TYPE = "" ]
-then
+#if [ $TYPE = "" ]
+#then
     echo "redmine もしくは chiliprojectを選択してください。"
     echo 
     echo " 1. chiliproject"
@@ -67,7 +66,7 @@ then
     echo -n "番号を入力してください: "
 
     read TYPE
-fi
+#fi
 
 
 case $TYPE in
