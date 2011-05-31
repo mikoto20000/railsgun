@@ -188,13 +188,14 @@ case $OS in
         fi
         a2enmod expires
         a2enmod dav_fs
+        a2enmod auth_mysql
         a2ensite railsgun
         a2ensite vcs
         service apache2 stop
         service apache2 start
         ;;
     rhel6)
-        if [ ! -f /etc/httpd/conf.d/kanon.conf ]
+        if [ ! -f /etc/apache2/sites-available/railsgun ]
         then
             sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf > /etc/httpd/conf.d/railsgun.conf
             sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf
