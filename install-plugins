@@ -1,11 +1,12 @@
+
 #!/bin/bash
 
 ###############################################
 # redmine_wiki_extension
 ###############################################
-#hg clone https://bitbucket.org/haru_iida/redmine_wiki_extensions
-#rm -fr $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
-#mv -f redmine_wiki_extensions $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
+hg clone https://bitbucket.org/haru_iida/redmine_wiki_extensions
+rm -fr $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
+mv -f redmine_wiki_extensions $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
 
 
 ###############################################
