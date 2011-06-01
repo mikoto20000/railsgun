@@ -34,12 +34,18 @@ Railsgunは次のような特徴を持っています。
 
 Railsgunは、次のRedmineプラグインを同梱しています。
 
- * Redmine Wiki Extensions
-  * http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions
  * Redmine Issue Extensions
   * http://www.r-labs.org/projects/r-labs/wiki/Issue_Extensions
  * Advanced Roadmap
   * https://ociotec.com/redmine/projects/advanced-roadmap/wiki
+ * Redmine MS Projects
+  * https://github.com/suer/redmine_ms_projects
+ * XLS export plugin
+  * http://www.redmine.org/boards/3/topics/11986
+ * Redmine Importer
+  * http://www.skyarc.co.jp/engineerblog/entry/post_12.html
+ * (保留中)Redmine Wiki Extensions
+  * http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions
 
 ## 動作環境
 
