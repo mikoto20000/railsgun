@@ -4,8 +4,8 @@
 ############################################################
 
 
-CP_VER=1.4.0
-CP_ARC=https://www.chiliproject.org/attachments/download/99/chiliproject-1.4.0.tar.gz
+CP_VER=1.5.0
+CP_ARC=https://www.chiliproject.org/attachments/download/129/chiliproject-1.5.0.tar.gz
 RM_VER=1.2.0
 RM_ARC=http://rubyforge.org/frs/download.php/74944/redmine-1.2.0.tar.gz
 
@@ -106,7 +106,7 @@ esac
 
 
 gem install i18n --version=0.4.2
-gem install rack -v=1.0.1
+gem install rack -v=1.1.0
 
 
 case $OS in
