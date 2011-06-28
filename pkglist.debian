@@ -3,6 +3,7 @@ mysql-server
 ruby
 ruby-dev
 rubygems
+librmagick-ruby1.8
 rake
 g++
 libmysql-ruby
