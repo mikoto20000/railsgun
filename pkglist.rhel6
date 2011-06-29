@@ -4,6 +4,7 @@ ruby
 ruby-devel
 rubygem-rake
 rubygem-rack
+ruby-RMagick
 httpd-devel
 gcc-c++
 apr-devel
