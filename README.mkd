@@ -3,9 +3,9 @@
 ## これはなに?
 
 近年、Ruby on Railsで実装されたプロジェクト管理ツールとしてRedmineが注目を浴びています。
-Redmineを導入するためには、gemの知識が必要だったり、Subversion/Gitなどのバージョン管理システムとのアカウントとの連携の設定が面倒だったり、快適な環境を構築するのは手間が掛かります。
+Redmineを導入するためには、gemの知識が必要だったり、Subversion/Gitなどのバージョン管理システムとのアカウントとの連携の設定が面倒だったり、プラグインをインストールしたりと、快適な環境を構築するのは手間が掛かります。
 
-また、Redmineの開発体制に不満を持った開発者がChiliProjectとしてフォークしたりと注目を浴びています。
+また、Redmineの開発体制に不満を持った開発者がChiliProjectとしてされたりとしています。
 
 Railsgunは、RedmineもしくはChiliProjectをLinux上に簡単にインストールし環境を構築するインストーラです。
 
@@ -18,12 +18,17 @@ Railsgunは次のような特徴を持っています。
  * 必要なソフトウェアを楽々セットアップ
   * インストーラを叩くだけで、Rails,MySQL,Subversion,Gitなど必要なソフトウェアを
     インストール
+  * MS Project、Excelのインポート、チケット、Wiki、ロードマップの拡張など、便利な
+    プラグインも一緒にインストールしてくれます。
   * Apacheの設定も行ってくれます。RailsアプリをApache上で公開するmod_passengerや
     MySQLに格納されたRedmineの認証情報でSubversionやGitの認証できるようにする
     mod_auth_mysqlの設定も行います。
+ * 楽々リポジトリ管理
+  * リポジトリの作成コマンドを用意し、リポジトリの作成とWebでの公開が簡単にできます。
+  * フックの設定も自動で行ってくれるので、チケットとチェンジログの連携もバッチリです。
  * 綺麗なテーマ
-   * ChiliProjectで採用されているアイコン化された綺麗なテーマをデフォルトで利用します。
-   * ユーザのアイコン表示もデフォルトで有効になっています。
+  * ChiliProjectで採用されているアイコン化された綺麗なテーマをデフォルトで利用します。
+  * ユーザのアイコン表示もデフォルトで有効になっています。
  * CUI環境でインストール可能
   * BitNamiなどGUI環境でRedmineをインストールできるインストーラはありますが、正直
     サーバにGUIは入れたくないです。RailsgunはCUIでインストールすることができます。
@@ -44,12 +49,14 @@ Railsgunは、次のRedmineプラグインを同梱しています。
   * http://www.redmine.org/boards/3/topics/11986
  * Redmine Importer
   * http://www.skyarc.co.jp/engineerblog/entry/post_12.html
- * (保留中)Redmine Wiki Extensions
+ * Redmine Wiki Extensions
   * http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions
 
 ## 動作環境
 
-RHEL6.0互換環境(OEL6.0,SL6.0,CentOS6.0など)
+ * RHEL6.0互換環境(OEL6.0,SL6.0,CentOS6.0など)
+ * Debian GNU/Linux 6.0
+ * Ubuntu 10.10以降
 
 ## 使い方
 
