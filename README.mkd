@@ -11,10 +11,13 @@ Railsgunは、RedmineもしくはChiliProjectをLinux上に簡単にインスト
 
 なお、読みは「とある発券機(チケットシステム)の超導入砲(レールズガン)」です。
 
+<src img="http://s3.amazonaws.com/twitpic/photos/large/310761676.png?AWSAccessKeyId=AKIAJF3XCCKACR3QDMOA&Expires=1310050910&Signature=SGjiRuaICxTPlE%2Fs2%2BhPa3XyUck%3D" />
+
 ## 特徴
-
 Railsgunは次のような特徴を持っています。
-
+ 
+ * テーマがデフォルトよりきれい
+  * アイコンテーマがデフォルトよりきれいです。やる気がアップします！！
  * 必要なソフトウェアを楽々セットアップ
   * インストーラを叩くだけで、Rails,MySQL,Subversion,Gitなど必要なソフトウェアを
     インストール
