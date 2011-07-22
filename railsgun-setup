@@ -6,8 +6,8 @@
 
 CP_VER=1.5.0
 CP_ARC=https://www.chiliproject.org/attachments/download/129/chiliproject-1.5.0.tar.gz
-RM_VER=1.2.0
-RM_ARC=http://rubyforge.org/frs/download.php/74944/redmine-1.2.0.tar.gz
+RM_VER=1.2.1
+RM_ARC=http://rubyforge.org/frs/download.php/75097/redmine-1.2.1.tar.gz
 
 export INSTALL_DIR=/opt/railsgun
 
