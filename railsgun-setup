@@ -144,6 +144,9 @@ then
     wget $RM_ARC
   fi
   tar zxvf redmine-$RM_VER.tar.gz
+  
+  (cd redmine-$RM_VER; patch -p1 -R < ../patch/redmine_disable_saltpassword.patch)
+
   cp -fr redmine-$RM_VER/* $INSTALL_DIR/
   rm -fr redmine-$RM_VER
 fi
