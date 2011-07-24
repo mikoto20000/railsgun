@@ -11,7 +11,7 @@ Railsgunは、RedmineもしくはChiliProjectをLinux上に簡単にインスト
 
 なお、読みは「とある発券機(チケットシステム)の超導入砲(レールズガン)」です。
 
-<img src="docs/img/railsgun.png" />
+<img src="railsgun/raw/master/docs/img/railsgun.png" />
 
 ## 特徴
 Railsgunは次のような特徴を持っています。
