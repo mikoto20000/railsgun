@@ -6,3 +6,5 @@ rm -fr /etc/apache2/sites-available/vcs
 rm -fr /etc/apache2/sites-available/railsgun
 rm -fr /etc/apache2/sites-enabled/vcs
 rm -fr /etc/apache2/sites-enabled/railsgun
+rm -fr /etc/httpd/conf.d/railsgun.conf
+rm -fr /etc/httpd/conf.d/vcs.conf
