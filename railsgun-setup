@@ -58,16 +58,16 @@ read HOSTNAME
 
 #if [ $TYPE = "" ]
 #then
-    echo "redmine もしくは chiliprojectを選択してください。"
-    echo 
-    echo " 1. chiliproject"
-    echo " 2. redmine"
-    echo 
-    echo -n "番号を入力してください: "
-
-    read TYPE
+#    echo "redmine もしくは chiliprojectを選択してください。"
+#    echo 
+#    echo " 1. chiliproject"
+#    echo " 2. redmine"
+#    echo 
+#    echo -n "番号を入力してください: "
+#
+#    read TYPE
 #fi
-
+TYPE=2
 
 case $TYPE in
     1|chiliproject)
@@ -145,7 +145,7 @@ then
   fi
   tar zxvf redmine-$RM_VER.tar.gz
   
-  (cd redmine-$RM_VER; patch -p1 -R < ../patch/redmine_disable_saltpassword.patch)
+#  (cd redmine-$RM_VER; patch -p1 -R < ../patch/redmine_disable_saltpassword.patch)
 
   cp -fr redmine-$RM_VER/* $INSTALL_DIR/
   rm -fr redmine-$RM_VER
@@ -153,6 +153,12 @@ fi
 
 cp config/database.yml $INSTALL_DIR/config/
 cp -r theme/* $INSTALL_DIR/public/themes/
+mkdir -p /usr/local/share/perl5/Apache/Authn/
+
+if [ ! -f /usr/local/share/perl5/Apache/Authn/Redmine.pm ]
+then
+  cp config/Redmine.pm /usr/local/share/perl5/Apache/Authn/
+fi
 
 # setup
 pushd . 

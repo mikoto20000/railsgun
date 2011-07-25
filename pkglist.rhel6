@@ -14,3 +14,5 @@ ruby-mysql
 mod_auth_mysql
 mod_dav_svn
 mod_wsgi 
+mod_perl
+perl-Apache-DBI
