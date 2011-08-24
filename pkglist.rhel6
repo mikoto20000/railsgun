@@ -1,3 +1,5 @@
+wget
+unzip
 mysql
 mysql-server
 ruby
@@ -7,6 +9,7 @@ rubygem-rack
 ruby-RMagick
 httpd-devel
 gcc-c++
+make
 apr-devel
 openssl-devel
 curl-devel
