@@ -36,8 +36,8 @@ else
     echo ""
     echo "  * Ubuntu 10.10 Server"
     echo "  * Debian GNU/Linux 6.0"
-    echo "  * RedHat Enterprise Linux 6.0"
-    echo "  * Oracle Enterprise Linux 6.0"
+    echo "  * RedHat Enterprise Linux 6.1"
+    echo "  * Sientific Linux 6.1"
     echo ""
     echo "です。"
     exit
@@ -93,7 +93,13 @@ case $OS in
         service mysql start
         ;;
     
-    rhel6)  
+    rhel6) 
+        echo "アプリケーションを動作させるために、ファイアフォールの設定とSELinuxの無効化を行います。"
+        echo "※ nと答えると手動でセキュリティの設定が必要となります。分らない場合はYと答えてください。"
+        echo 
+        echo -n "アプリケーションを動作させるためにセキュリティの設定を行いますか?[Y/n]"
+        read USE_DISABLE_SECURITY
+        
         if [ ! -f /etc/yum.repos.d/epel.repo ]
         then 
             rpm -Uvh http://download.fedora.redhat.com/pub/epel/6/x86_64/epel-release-6-5.noarch.rpm
@@ -207,14 +213,30 @@ case $OS in
             sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf > /etc/httpd/conf.d/railsgun.conf
             sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf
         fi
-        echo 0 > /selinux/enforce
-        CHK=`grep SELINUX=enforcing /etc/selinux/config` 
-        if [ ! "$CHK" = '' ]   
-        then
-            cat /etc/selinux/config |sed 's/SELINUX=enforcing/SELINUX=disabled/' > /tmp/selinux_config
-            mv /tmp/selinux_config /etc/selinux/config 
-        fi
-        echo "SELinuxが無効化されました"
+
+        # セキュリティ無効化の設定        
+      	if [ ! "$USE_DISABLE_SECURITY" = "n" ]
+      	then
+            # SELinuxを無効化
+            echo 0 > /selinux/enforce
+            CHK=`grep SELINUX=enforcing /etc/selinux/config` 
+            if [ ! "$CHK" = '' ]   
+            then
+                cat /etc/selinux/config |sed 's/SELINUX=enforcing/SELINUX=disabled/' > /tmp/selinux_config
+                mv /tmp/selinux_config /etc/selinux/config 
+                echo "SELinuxが無効化されました"
+            fi
+        
+            # ファイアウォールの設定で80番(http)を許可
+            CHK=`grep "dport 80" /etc/sysconfig/iptables`
+            if [ "$CHK" = '' ]
+            then
+                RULENUM=`iptables-save |grep INPUT |grep -n "dport 22"|awk -F : '{print $1}'`
+                iptables -I  INPUT ${RULENUM} -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+                iptables-save > /etc/sysconfig/iptables
+                echo "tcp 80番ポートのアクセスを許可しました"
+            fi
+        fi        
         service httpd stop
         service httpd start
         ;;
