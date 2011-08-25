@@ -36,8 +36,7 @@ else
     echo ""
     echo "  * Ubuntu 10.10 Server"
     echo "  * Debian GNU/Linux 6.0"
-    echo "  * RedHat Enterprise Linux 6.1"
-    echo "  * Sientific Linux 6.1"
+    echo "  * RHEL/Oracle EL/CentOS/SL 6.0/6.1"
     echo ""
     echo "です。"
     exit
@@ -210,7 +209,9 @@ case $OS in
     rhel6)
         if [ ! -f /etc/httpd/conf.d/railsgun.conf ]
         then
-            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf > /etc/httpd/conf.d/railsgun.conf
+            PASSENGER_VERSION=`passenger-config  --version`
+            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf | \
+                sed 's/%PASSENGER_VERSION%/'$PASSENGER_VERSION'/' > /etc/httpd/conf.d/railsgun.conf
             sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf
         fi
 
