@@ -51,7 +51,9 @@ fi
 
 
 
-echo "ホスト名を入力してください。ホスト名はApacheのバーチャルホストで利用されます。"
+echo "ホスト名(IPアドレスもしくはDNS名)を入力してください。ホスト名はApacheのバーチャルホストで利用されます。"
+echo "例えば、192.168.1.4をホスト名で入力すると、http://192.168.1.4/でアクセスすることになります。"
+echo "(上記の設定ではhttp://localhost/では接続できないのでご注意ください)"
 echo -n "ホスト名: "
 read HOSTNAME
 
@@ -93,6 +95,8 @@ case $OS in
         ;;
     
     rhel6) 
+        echo
+        echo
         echo "アプリケーションを動作させるために、ファイアフォールの設定とSELinuxの無効化を行います。"
         echo "※ nと答えると手動でセキュリティの設定が必要となります。分らない場合はYと答えてください。"
         echo 
@@ -128,7 +132,6 @@ esac
 /etc/init.d/mysql start
 
 mysql < config/createdb.sql 
-mysql railsgun < config/workflows.sql 
 
 # install chiliproject
 mkdir -p $INSTALL_DIR
@@ -183,6 +186,9 @@ mysql railsgun < config/init.mysql
 
 # install plugins
 bash ./install-plugins
+
+# add tracker
+mysql railsgun < config/workflows.sql 
 
 mkdir -p /etc/opt/railsgun
 cp -fr etc/* /etc/opt/railsgun/
