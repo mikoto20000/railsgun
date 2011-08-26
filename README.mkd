@@ -5,9 +5,7 @@
 近年、Ruby on Railsで実装されたプロジェクト管理ツールとしてRedmineが注目を浴びています。
 Redmineを導入するためには、gemの知識が必要だったり、Subversion/Gitなどのバージョン管理システムとのアカウントとの連携の設定が面倒だったり、プラグインをインストールしたりと、快適な環境を構築するのは手間が掛かります。
 
-また、Redmineの開発体制に不満を持った開発者がChiliProjectとしてされたりとしています。
-
-Railsgunは、RedmineもしくはChiliProjectをLinux上に簡単にインストールし環境を構築するインストーラです。
+Railsgunは、Redmine/Git/SubversionをLinux上に簡単にインストールし環境を構築するインストーラです。各ソフトウェアのインストールとプラグインを使うための便利な設定を自動的に行ってくれます。
 
 なお、読みは「とある発券機(チケットシステム)の超導入砲(レールズガン)」です。
 
@@ -29,13 +27,9 @@ Railsgunは次のような特徴を持っています。
  * 楽々リポジトリ管理
   * リポジトリの作成コマンドを用意し、リポジトリの作成とWebでの公開が簡単にできます。
   * フックの設定も自動で行ってくれるので、チケットとチェンジログの連携もバッチリです。
- * 綺麗なテーマ
-  * ChiliProjectで採用されているアイコン化された綺麗なテーマをデフォルトで利用します。
-  * ユーザのアイコン表示もデフォルトで有効になっています。
  * CUI環境でインストール可能
-  * BitNamiなどGUI環境でRedmineをインストールできるインストーラはありますが、正直
-    サーバにGUIは入れたくないです。RailsgunはCUIでインストールすることができます。
-    サーバ環境に最適です。
+  * BitNamiなどGUI環境でRedmineをインストールできるインストーラはありますが、
+    RailsgunはCUIでインストールすることができます。GUIを入れたくない人にお勧めです。
   * クラウドやホスティングサービスでの利用にも最適です。
 
 ## 同梱するプラグイン
@@ -54,10 +48,12 @@ Railsgunは、次のRedmineプラグインを同梱しています。
   * http://www.skyarc.co.jp/engineerblog/entry/post_12.html
  * Redmine Wiki Extensions
   * http://www.r-labs.org/projects/r-labs/wiki/Wiki_Extensions
+ * Redmine Code Review
+  * http://www.r-labs.org/projects/r-labs/wiki/Code_Review
 
 ## 動作環境
 
- * RHEL6.0互換環境(OEL6.0,SL6.0,CentOS6.0など)
+ * RHEL6互換環境(OEL,SL,CentOSなど含む)
  * Debian GNU/Linux 6.0
  * Ubuntu 10.10以降
 
@@ -65,7 +61,7 @@ Railsgunは、次のRedmineプラグインを同梱しています。
 
  # ./railsgun-setup
 
-でチケットシステム、バージョン管理システムをインストールします。redmine/chiliprojectを選択することができます。
+チケットシステム、バージョン管理システムをインストールします。
 
 インストールが終了すると、http://localhost/にWebブラウザで接続するとチケットシステムにアクセスできます。管理者権限でログインすると、設定やプロジェクトの作成を行うことができます。管理者情報は下記の通りです。
 
@@ -84,5 +80,5 @@ Railsgunは、次のRedmineプラグインを同梱しています。
 
  # /opt/railsgun/bin/railsgun-create-repository svn myproject(リポジトリ名)
 
-作成したリポジトリをRedmine/ChiliProjectのプロジェクトとして登録するのを忘れないようにしてください。
+作成したリポジトリをRedmineのプロジェクトとして登録するのを忘れないようにしてください。
 
