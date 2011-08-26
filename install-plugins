@@ -51,6 +51,14 @@ mv -f trunk $INSTALL_DIR/vendor/plugins/redmine_importer
 rm -f redmine_importer.0.0.3.zip
 
 ###############################################
+# Code Review
+###############################################
+wget -O redmine_code_review.zip https://bitbucket.org/haru_iida/redmine_code_review/downloads/redmine_code_review-0.4.3.zip
+unzip redmine_code_review.zip
+mv -f redmine_code_review $INSTALL_DIR/vendor/plugins/
+rm -fr redmine_code_review.zip
+
+###############################################
 # setup plugins
 ###############################################
 
