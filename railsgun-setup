@@ -126,7 +126,9 @@ esac
 
 
 /etc/init.d/mysql start
+
 mysql < config/createdb.sql 
+mysql railsgun < config/workflows.sql 
 
 # install chiliproject
 mkdir -p $INSTALL_DIR

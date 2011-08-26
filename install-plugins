@@ -1,54 +1,13 @@
-
 #!/bin/bash
 
-###############################################
-# redmine_wiki_extension
-###############################################
-wget -O redmine_wiki_extensions.zip https://bitbucket.org/haru_iida/redmine_wiki_extensions/downloads/redmine_wiki_extensions-0.3.4.zip
-yes | unzip redmine_wiki_extensions.zip
-rm -fr $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
-mv -f redmine_wiki_extensions $INSTALL_DIR/vendor/plugins/redmine_wiki_extensions
-rm -fr redmine_wiki_extensions.zip
+gem install spreadsheet
 
-###############################################
-# redmine_issue_extensions
-###############################################
-wget -O redmine_issue_extensions.zip http://redmineissueext.googlecode.com/files/redmine_issue_extensions-0.0.7.1.zip
-yes | unzip redmine_issue_extensions.zip
-rm -fr $INSTALL_DIR/vendor/plugins/redmine_issue_extensions
-mv -f redmine_issue_extensions $INSTALL_DIR/vendor/plugins/redmine_issue_extensions
-rm -fr redmine_issue_extensions.zip
-
-###############################################
-# advanced_roadmap 
-###############################################
-wget http://ociotec.com/redmine/attachments/download/148/advanced_roadmap.0.5.0.tar.gz
-tar zxvf advanced_roadmap.0.5.0.tar.gz 
-rm -fr $INSTALL_DIR/vendor/plugins/advanced_roadmap
-mv -f advanced_roadmap.0.5.0 $INSTALL_DIR/vendor/plugins/advanced_roadmap
-rm -f advanced_roadmap.0.5.0.tar.gz 
+bash ./redmine-plugin-installer
 
 ###############################################
 # MS Project Import
 ###############################################
 git clone https://github.com/suer/redmine_ms_projects.git $INSTALL_DIR/vendor/plugins/redmine_ms_projects
-
-###############################################
-# Excel Export Export
-###############################################
-gem install spreadsheet
-wget http://www.redmine.org/attachments/5392/redmine_xls_export_v013.zip
-unzip redmine_xls_export_v013.zip
-mv -f redmine_xls_export $INSTALL_DIR/vendor/plugins/redmine_xls_export
-rm -f redmine_xls_export_v013.zip
-
-###############################################
-# CSV Ticket Importer
-###############################################
-wget http://www.skyarc.co.jp/engineerblog/download/redmine_importer.0.0.3.zip
-unzip redmine_importer.0.0.3.zip
-mv -f trunk $INSTALL_DIR/vendor/plugins/redmine_importer
-rm -f redmine_importer.0.0.3.zip
 
 ###############################################
 # setup plugins
