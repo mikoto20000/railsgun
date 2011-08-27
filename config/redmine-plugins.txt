@@ -1,7 +1,17 @@
+# インストールするプラグインのリスト
+# 下記の形式で記述:
+#
+#   プラグインディレクトリ名,アーカイブディレクトリ名 or タグ名,URL
+# 
+# プラグインディレクトリ名はvendor/pluginsに置くプラグインの名前
+# アーカイブディレクトリ名はtgz/zipファイルを展開したときのディレクトリ名
 redmine_wiki_extensions,redmine_wiki_extensions,https://bitbucket.org/haru_iida/redmine_wiki_extensions/downloads/redmine_wiki_extensions-0.3.4.zip
 redmine_issue_extensions,redmine_issue_extensions,http://redmineissueext.googlecode.com/files/redmine_issue_extensions-0.0.7.1.zip
-advanced_roadmap.0.5.0,advanced_roadmap,http://ociotec.com/redmine/attachments/download/148/advanced_roadmap.0.5.0.tar.gz
+advanced_roadmap,advanced_roadmap.0.5.0,http://ociotec.com/redmine/attachments/download/148/advanced_roadmap.0.5.0.tar.gz
 redmine_xls_export,redmine_xls_export,http://www.redmine.org/attachments/5392/redmine_xls_export_v013.zip
-trunk,redmine_importer,http://www.skyarc.co.jp/engineerblog/download/redmine_importer.0.0.3.zip
+redmine_importer,trunk,http://www.skyarc.co.jp/engineerblog/download/redmine_importer.0.0.3.zip
 redmine_code_review,redmine_code_review,https://bitbucket.org/haru_iida/redmine_code_review/downloads/redmine_code_review-0.4.3.zip
+redmine_ms_projects,master,https://github.com/suer/redmine_ms_projects.git
+
+
 
