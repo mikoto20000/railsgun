@@ -50,7 +50,9 @@ fi
 
 
 
-
+echo "*******************************************************"
+echo "  ホスト名の設定"
+echo "*******************************************************"
 echo "ホスト名(IPアドレスもしくはDNS名)を入力してください。ホスト名はApacheのバーチャルホストで利用されます。"
 echo "例えば、192.168.1.4をホスト名で入力すると、http://192.168.1.4/でアクセスすることになります。"
 echo "(上記の設定ではhttp://localhost/では接続できないのでご注意ください)"
@@ -97,6 +99,9 @@ case $OS in
     rhel6) 
         echo
         echo
+        echo "*******************************************************"
+        echo "  セキュリティの設定"
+        echo "*******************************************************"
         echo "アプリケーションを動作させるために、ファイアフォールの設定とSELinuxの無効化を行います。"
         echo "※ nと答えると手動でセキュリティの設定が必要となります。分らない場合はYと答えてください。"
         echo 
@@ -108,15 +113,14 @@ case $OS in
             rpm -Uvh http://download.fedora.redhat.com/pub/epel/6/x86_64/epel-release-6-5.noarch.rpm
         fi
         yum -y --nogpgcheck install `cat pkglist.rhel6`
+        chkconfig  --add mysqld
+        chkconfig  mysqld on
         service mysqld start
         ;;        
 esac        
 
-
-
 gem install i18n --version=0.4.2
 gem install rack -v=1.1.0
-
 
 case $OS in
     rhel6)  
@@ -187,9 +191,6 @@ mysql railsgun < config/init.mysql
 # install plugins
 bash ./install-plugins
 
-# add tracker
-mysql railsgun < config/workflows.sql 
-
 mkdir -p /etc/opt/railsgun
 cp -fr etc/* /etc/opt/railsgun/
 
@@ -246,6 +247,8 @@ case $OS in
                 echo "tcp 80番ポートのアクセスを許可しました"
             fi
         fi        
+        chkconfig --add httpd
+	chkconfig httpd on
         service httpd stop
         service httpd start
         ;;
