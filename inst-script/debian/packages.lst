@@ -1,3 +1,6 @@
+unzip
+git
+subversion
 mysql-client
 mysql-server
 ruby
@@ -17,5 +20,6 @@ libapr1-dev
 libaprutil1-dev
 apache2
 gcc
-git
-subversion
+# for backlogs
+libnokogiri-ruby
+libical0

@@ -15,26 +15,36 @@ do
   EXT=`echo ${URL_NAME[$i]} | sed -e "s/.*\.\(.*$\)/\1/"`
     case $EXT in 
     zip)
-        wget ${URL_NAME[$i]}
-        yes | unzip $FILE_NAME
-        rm -fr $INSTALL_DIR/vendor/plugins/${DIR_NAME[$i]}
+        if [ ! -f cache/$FILE_NAME ]
+        then
+          wget -P cache ${URL_NAME[$i]}
+        fi
+        yes | unzip cache/$FILE_NAME
+        rm -fr $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}
         mv ${DIR_NAME[$i]} $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}
         rm -f $FILE_NAME
         ;;
 
     tgz|gz)
-        wget ${URL_NAME[$i]}
-        tar zxf $FILE_NAME
-        rm -fr $INSTALL_DIR/vendor/plugins/${DIR_NAME[$i]}
+        if [ ! -f cache/$FILE_NAME ]
+        then
+          wget -P cache ${URL_NAME[$i]}
+        fi
+        tar zxf cache/$FILE_NAME
+        rm -fr $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}
         mv ${DIR_NAME[$i]} $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}
         rm -f $FILE_NAME
         ;;
     git)
-        git clone ${URL_NAME[$i]}
-        cd ${DEST_NAME[$i]}
+        if [ ! -f cache/$FILE_NAME ]
+        then
+          git clone ${URL_NAME[$i]} cache/${DEST_NAME[$i]}
+        fi
+        cd cache/${DEST_NAME[$i]}
         git checkout ${DIR_NAME[$i]}
-        cd ..
-        mv ${DEST_NAME[$i]} $INSTALL_DIR/vendor/plugins/
+        cd ../..
+        rm -fr $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}        
+        cp -ar cache/${DEST_NAME[$i]} $INSTALL_DIR/vendor/plugins/
         ;;
     *)
         ;;

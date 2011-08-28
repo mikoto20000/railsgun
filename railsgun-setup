@@ -10,6 +10,10 @@ CP_ARC=https://www.chiliproject.org/attachments/download/129/chiliproject-1.5.0.
 RM_VER=1.2.1
 RM_ARC=http://rubyforge.org/frs/download.php/75097/redmine-1.2.1.tar.gz
 
+if [ ! -d cache ]
+then
+  mkdir cache
+fi
 
 
 if [ -f /etc/redhat-release ]
@@ -18,25 +22,25 @@ then
     CHK=`egrep "CentOS release 5|Red Hat Enterprise Linux .* 5" /etc/redhat-release`
     if [ "$CHK" != '' ]
     then
-#        OS='rhel5'
+        OS='rhel5'
 #        echo "RHEL 5.x / CentOS 5.x / OEL 5.xが検出されました。"
-        echo 
+#        echo 
 
     else
         OS='rhel6'
         echo "RHEL 6.x / CentOS 6.x / OEL 6.xが検出されました。"        
     fi
-#elif [ -f /etc/debian_version ]
-#then
-#    OS='debian'
-#    APACHE_USER=www-data
-#    echo "Debian / Ubuntu が検出されました。"
+elif [ -f /etc/debian_version ]
+then
+    OS='debian'
+    APACHE_USER=www-data
+    echo "Debian / Ubuntu が検出されました。"
 else
     echo "サポートされていないOSです。"
     echo "現在サポートされいているOSは、"
     echo ""
- #   echo "  * Ubuntu 10.10 Server"
- #   echo "  * Debian GNU/Linux 6.0"
+#   echo "  * Ubuntu 10.10 Server"
+#   echo "  * Debian GNU/Linux 6.0"
     echo "  * RHEL/Oracle EL/CentOS/SL 6.0/6.1"
     echo ""
     echo "です。"
@@ -92,9 +96,18 @@ esac
 
 
 ## install packages
-source inst-script/$OS/pre-install
+if [ ! -f packages.installed ]
+then
+  source inst-script/$OS/pre-install
+  touch packages.installed
+fi
 
-source inst-script/gems
+if [ ! -f gems.installed ]
+then
+  source inst-script/gems
+  touch gems.installed
+fi
+ 
 
 /etc/init.d/mysql start
 
@@ -116,11 +129,11 @@ fi
 if [ $TYPE = "redmine" ]
 then
 
-  if [ ! -f redmine-$RM_VER.tar.gz ]
+  if [ ! -f cache/redmine-$RM_VER.tar.gz ]
   then
-    wget $RM_ARC
+    wget -P cache $RM_ARC
   fi
-  tar zxf redmine-$RM_VER.tar.gz
+  tar zxf cache/redmine-$RM_VER.tar.gz
   
 #  (cd redmine-$RM_VER; patch -p1 -R < ../patch/redmine_disable_saltpassword.patch)
 
