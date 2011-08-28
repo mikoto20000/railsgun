@@ -18,25 +18,25 @@ then
     CHK=`egrep "CentOS release 5|Red Hat Enterprise Linux .* 5" /etc/redhat-release`
     if [ "$CHK" != '' ]
     then
-#        OS='rhel5'
+        OS='rhel5'
 #        echo "RHEL 5.x / CentOS 5.x / OEL 5.xが検出されました。"
-        echo 
+#        echo 
 
     else
         OS='rhel6'
         echo "RHEL 6.x / CentOS 6.x / OEL 6.xが検出されました。"        
     fi
-#elif [ -f /etc/debian_version ]
-#then
-#    OS='debian'
-#    APACHE_USER=www-data
-#    echo "Debian / Ubuntu が検出されました。"
+elif [ -f /etc/debian_version ]
+then
+    OS='debian'
+    APACHE_USER=www-data
+    echo "Debian / Ubuntu が検出されました。"
 else
     echo "サポートされていないOSです。"
     echo "現在サポートされいているOSは、"
     echo ""
- #   echo "  * Ubuntu 10.10 Server"
- #   echo "  * Debian GNU/Linux 6.0"
+#   echo "  * Ubuntu 10.10 Server"
+#   echo "  * Debian GNU/Linux 6.0"
     echo "  * RHEL/Oracle EL/CentOS/SL 6.0/6.1"
     echo ""
     echo "です。"

@@ -1,5 +1,6 @@
 #!/bin/bash
-
 apt-get update
-apt-get -y install `grep -v "^#" inst-script/debian/packages`
+apt-get -y install `grep -v "^#" inst-script/debian/packages.lst`
 service mysql start
+
+gem install icalendar
