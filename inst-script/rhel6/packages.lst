@@ -1,4 +1,6 @@
 wget
+git
+subversion
 unzip
 mysql
 mysql-server
