@@ -10,6 +10,7 @@ redmine_issue_extensions,redmine_issue_extensions,http://redmineissueext.googlec
 redmine_xls_export,redmine_xls_export,http://www.redmine.org/attachments/5392/redmine_xls_export_v013.zip
 redmine_importer,trunk,http://www.skyarc.co.jp/engineerblog/download/redmine_importer.0.0.3.zip
 redmine_code_review,redmine_code_review,https://bitbucket.org/haru_iida/redmine_code_review/downloads/redmine_code_review-0.4.3.zip
+redmine_hudson,redmine_hudson,http://r-labs.googlecode.com/files/redmine_hudson-1.0.7.zip
 redmine_ms_projects,master,https://github.com/suer/redmine_ms_projects.git
 redmine_backlogs,v0.6.7,https://github.com/relaxdiego/redmine_backlogs.git
 
