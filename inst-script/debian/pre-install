@@ -1,0 +1,5 @@
+#!/bin/bash
+
+apt-get update
+apt-get -y install `grep -v "^#" inst-script/debian/packages`
+service mysql start
