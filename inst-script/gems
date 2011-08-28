@@ -10,9 +10,9 @@ do
   VER=${VER[$i]} 
   if [ "$VER" = "-" ]
   then
-    echo gem install $NAME
+    gem install $NAME
   else 
-    echo gem install $NAME -v=$VER
+    gem install $NAME -v=$VER
   fi
 done
 

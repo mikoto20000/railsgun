@@ -1,0 +1,11 @@
+# for redmine
+i18n,0.4.2
+rack,1.1.0
+# import excel plugin
+spreadsheet,-
+# for backlogs plugin
+open-uri-cached,-
+holidays,-
+prawn,-
+icalendar,-
+activeresource,-

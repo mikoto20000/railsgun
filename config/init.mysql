@@ -22,6 +22,12 @@ INSERT INTO workflows (tracker_id,old_status_id,new_status_id,role_id)
        SELECT 6, old_status_id,new_status_id,role_id FROM workflows
        WHERE tracker_id = 1;
 
+/*********************************************************************
+ * トラッカーの「機能」をストーリーに割り当て(backlogsのバグ)
+ * TODO: backlogsのバグが直ったら削除
+ ********************************************************************/
+UPDATE settings SET value='--- \n:points_burn_direction: down\n:taskboard_card_order: story_follows_tasks\n:card_spec: PEARL PE-8007\n:wiki_template: ""\n:story_trackers: \n- 2\n:task_tracker: 4\n' WHERE name='plugin_redmine_backlogs';
+
 
 /*********************************************************************
  * Redmineの初期設定

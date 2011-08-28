@@ -94,6 +94,8 @@ esac
 ## install packages
 source inst-script/$OS/pre-install
 
+source inst-script/gems
+
 /etc/init.d/mysql start
 
 mysql < config/createdb.sql 
@@ -107,7 +109,7 @@ then
   then
     wget $CP_ARC
   fi
-  tar zxvf chiliproject-$CP_VER.tar.gz
+  tar zxf chiliproject-$CP_VER.tar.gz
   cp -fr chiliproject-$CP_VER/* $INSTALL_DIR/
   rm -fr chiliproject-$CP_VER
 fi
@@ -118,7 +120,7 @@ then
   then
     wget $RM_ARC
   fi
-  tar zxvf redmine-$RM_VER.tar.gz
+  tar zxf redmine-$RM_VER.tar.gz
   
 #  (cd redmine-$RM_VER; patch -p1 -R < ../patch/redmine_disable_saltpassword.patch)
 

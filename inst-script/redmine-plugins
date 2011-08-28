@@ -24,7 +24,7 @@ do
 
     tgz|gz)
         wget ${URL_NAME[$i]}
-        tar zxvf $FILE_NAME
+        tar zxf $FILE_NAME
         rm -fr $INSTALL_DIR/vendor/plugins/${DIR_NAME[$i]}
         mv ${DIR_NAME[$i]} $INSTALL_DIR/vendor/plugins/${DEST_NAME[$i]}
         rm -f $FILE_NAME
