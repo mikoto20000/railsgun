@@ -4,12 +4,13 @@
 ############################################################
 
 export RAILS_ENV=production
+export INSTALL_DIR=/opt/railsgun
 CP_VER=1.5.0
 CP_ARC=https://www.chiliproject.org/attachments/download/129/chiliproject-1.5.0.tar.gz
 RM_VER=1.2.1
 RM_ARC=http://rubyforge.org/frs/download.php/75097/redmine-1.2.1.tar.gz
 
-export INSTALL_DIR=/opt/railsgun
+
 
 if [ -f /etc/redhat-release ]
 then
@@ -159,18 +160,3 @@ cp -fr bin/*  $INSTALL_DIR/bin/
 cp -fr hooks $INSTALL_DIR/
 
 source inst-script/$OS/post-install
-
-#    debian)
-#        if [ ! -f /etc/apache2/sites-available/railsgun ]
-#        then
-#            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.debian.conf > /etc/apache2/sites-available/railsgun
-#            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.debian.conf > /etc/apache2/sites-available/vcs
-#        fi
-#        a2enmod expires
-#        a2enmod dav_fs
-#        a2enmod auth_mysql
-#        a2ensite railsgun
-#        a2ensite vcs
-#        service apache2 stop
-#        service apache2 start
-#        ;;
