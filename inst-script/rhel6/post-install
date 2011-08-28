@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if [ ! -f /etc/httpd/conf.d/railsgun.conf ]
+if [ ! -f /etc/httpd/conf.d/redmine.conf ]
 then
   PASSENGER_VERSION=`passenger-config  --version`
-  sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf | \
-      sed 's/%PASSENGER_VERSION%/'$PASSENGER_VERSION'/' > /etc/httpd/conf.d/railsgun.conf
-  sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf     
+  sed 's/%HOSTNAME%/'$HOSTNAME'/' inst-script/rhel6/httpd-redmine.conf | \
+      sed 's/%PASSENGER_VERSION%/'$PASSENGER_VERSION'/' > /etc/httpd/conf.d/redmine.conf
+  sed 's/%HOSTNAME%/'$HOSTNAME'/' inst-script/rhel6/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf     
 fi
           
 # セキュリティ無効化の設定        

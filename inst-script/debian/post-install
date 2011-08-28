@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if [ ! -f /etc/apache2/sites-available/railsgun ]
+if [ ! -f /etc/apache2/sites-available/redmine ]
 then
-  sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.debian.conf > /etc/apache2/sites-available/railsgun
-  sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.debian.conf > /etc/apache2/sites-available/vcs
+  sed 's/%HOSTNAME%/'$HOSTNAME'/' inst-script/debian/httpd-redmine.conf > /etc/apache2/sites-available/redmine
+  sed 's/%HOSTNAME%/'$HOSTNAME'/' inst-script/debian/httpd-vcs.conf > /etc/apache2/sites-available/vcs
 fi
 
 a2enmod expires
 a2enmod dav_fs
 a2enmod auth_mysql
-a2ensite railsgun
+a2ensite redmine
 a2ensite vcs
 
 service apache2 stop
