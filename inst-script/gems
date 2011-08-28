@@ -1,0 +1,29 @@
+# rubygems.lstからgemのリストを取得しインストール
+
+# インストールするディレクトリ名
+NAME=(`grep -v "^#" config/rubygems.lst | awk -F, '{print $1}'`)
+VER=(`grep -v "^#" config/rubygems.lst | awk -F, '{print $2}'`)
+
+for (( i = 0; i < ${#NAME[@]}; ++i ))
+do
+  NAME=${NAME[$i]}
+  VER=${VER[$i]} 
+  if [ "$VER" = "-" ]
+  then
+    echo gem install $NAME
+  else 
+    echo gem install $NAME -v=$VER
+  fi
+done
+
+
+## install mod_passenger
+case $OS in
+    rhel6) 
+        if [ ! -f /usr/lib/ruby/gems/1.8/gems/passenger-3.*/ext/apache2/mod_passenger.so ]
+        then
+            gem install passenger
+            passenger-install-apache2-module --auto
+        fi
+        ;;
+esac

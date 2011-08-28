@@ -3,7 +3,7 @@
 # Smart installer for redmine/chiliproject.
 ############################################################
 
-
+export RAILS_ENV=production
 CP_VER=1.5.0
 CP_ARC=https://www.chiliproject.org/attachments/download/129/chiliproject-1.5.0.tar.gz
 RM_VER=1.2.1
@@ -11,12 +11,7 @@ RM_ARC=http://rubyforge.org/frs/download.php/75097/redmine-1.2.1.tar.gz
 
 export INSTALL_DIR=/opt/railsgun
 
-if [ -f /etc/debian_version ]
-then
-    OS='debian'
-    APACHE_USER=www-data
-    echo "Debian / Ubuntu が検出されました。"
-elif [ -f /etc/redhat-release ]
+if [ -f /etc/redhat-release ]
 then
     APACHE_USER=apache
     CHK=`egrep "CentOS release 5|Red Hat Enterprise Linux .* 5" /etc/redhat-release`
@@ -30,12 +25,17 @@ then
         OS='rhel6'
         echo "RHEL 6.x / CentOS 6.x / OEL 6.xが検出されました。"        
     fi
+#elif [ -f /etc/debian_version ]
+#then
+#    OS='debian'
+#    APACHE_USER=www-data
+#    echo "Debian / Ubuntu が検出されました。"
 else
     echo "サポートされていないOSです。"
     echo "現在サポートされいているOSは、"
     echo ""
-    echo "  * Ubuntu 10.10 Server"
-    echo "  * Debian GNU/Linux 6.0"
+ #   echo "  * Ubuntu 10.10 Server"
+ #   echo "  * Debian GNU/Linux 6.0"
     echo "  * RHEL/Oracle EL/CentOS/SL 6.0/6.1"
     echo ""
     echo "です。"
@@ -58,6 +58,8 @@ echo "例えば、192.168.1.4をホスト名で入力すると、http://192.168.
 echo "(上記の設定ではhttp://localhost/では接続できないのでご注意ください)"
 echo -n "ホスト名: "
 read HOSTNAME
+echo ""
+echo ""
 
 #if [ $TYPE = "" ]
 #then
@@ -89,49 +91,7 @@ esac
 
 
 ## install packages
-case $OS in
-    debian)
-        apt-get update
-        apt-get -y install `cat pkglist.debian`
-        service mysql start
-        ;;
-    
-    rhel6) 
-        echo
-        echo
-        echo "*******************************************************"
-        echo "  セキュリティの設定"
-        echo "*******************************************************"
-        echo "アプリケーションを動作させるために、ファイアフォールの設定とSELinuxの無効化を行います。"
-        echo "※ nと答えると手動でセキュリティの設定が必要となります。分らない場合はYと答えてください。"
-        echo 
-        echo -n "アプリケーションを動作させるためにセキュリティの設定を行いますか?[Y/n]"
-        read USE_DISABLE_SECURITY
-        
-        if [ ! -f /etc/yum.repos.d/epel.repo ]
-        then 
-            rpm -Uvh http://download.fedora.redhat.com/pub/epel/6/x86_64/epel-release-6-5.noarch.rpm
-        fi
-        yum -y --nogpgcheck install `cat pkglist.rhel6`
-        chkconfig  --add mysqld
-        chkconfig  mysqld on
-        service mysqld start
-        ;;        
-esac        
-
-gem install i18n --version=0.4.2
-gem install rack -v=1.1.0
-
-case $OS in
-    rhel6)  
-        if [ ! -f /usr/lib/ruby/gems/1.8/gems/passenger-3.*/ext/apache2/mod_passenger.so ]
-        then
-            gem install passenger
-            passenger-install-apache2-module --auto
-        fi
-        ;;
-esac
-
+source inst-script/$OS/pre-install
 
 /etc/init.d/mysql start
 
@@ -178,18 +138,17 @@ fi
 pushd . 
 cd $INSTALL_DIR
 rake generate_session_store
-RAILS_ENV=production rake db:migrate
+rake db:migrate
 echo "ja" |RAILS_ENV=production rake redmine:load_default_data
 
 popd
-
 
 # Customize
 mysql railsgun < config/init.mysql
 # sqlite3 $INSTALL_DIR/db/railsgun.sqlite < config/init.mysql
 
 # install plugins
-bash ./install-plugins
+source inst-script/redmine-plugins
 
 mkdir -p /etc/opt/railsgun
 cp -fr etc/* /etc/opt/railsgun/
@@ -199,60 +158,19 @@ mkdir -p /var/opt/railsgun/git /var/opt/railsgun/svn
 cp -fr bin/*  $INSTALL_DIR/bin/
 cp -fr hooks $INSTALL_DIR/
 
-case $OS in
+source inst-script/$OS/post-install
 
-    debian)
-        if [ ! -f /etc/apache2/sites-available/railsgun ]
-        then
-            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.debian.conf > /etc/apache2/sites-available/railsgun
-            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.debian.conf > /etc/apache2/sites-available/vcs
-        fi
-        a2enmod expires
-        a2enmod dav_fs
-        a2enmod auth_mysql
-        a2ensite railsgun
-        a2ensite vcs
-        service apache2 stop
-        service apache2 start
-        ;;
-    rhel6)
-        if [ ! -f /etc/httpd/conf.d/railsgun.conf ]
-        then
-            PASSENGER_VERSION=`passenger-config  --version`
-            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.conf | \
-                sed 's/%PASSENGER_VERSION%/'$PASSENGER_VERSION'/' > /etc/httpd/conf.d/railsgun.conf
-            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.conf > /etc/httpd/conf.d/vcs.conf
-        fi
-
-        # セキュリティ無効化の設定        
-      	if [ ! "$USE_DISABLE_SECURITY" = "n" ]
-      	then
-            # SELinuxを無効化
-            echo 0 > /selinux/enforce
-            CHK=`grep SELINUX=enforcing /etc/selinux/config` 
-            if [ ! "$CHK" = '' ]   
-            then
-                cat /etc/selinux/config |sed 's/SELINUX=enforcing/SELINUX=disabled/' > /tmp/selinux_config
-                mv /tmp/selinux_config /etc/selinux/config 
-                echo "SELinuxが無効化されました"
-            fi
-        
-            # ファイアウォールの設定で80番(http)を許可
-            CHK=`grep "dport 80" /etc/sysconfig/iptables`
-            if [ "$CHK" = '' ]
-            then
-                RULENUM=`iptables-save |grep INPUT |grep -n "dport 22"|awk -F : '{print $1}'`
-                iptables -I  INPUT ${RULENUM} -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
-                iptables-save > /etc/sysconfig/iptables
-                echo "tcp 80番ポートのアクセスを許可しました"
-            fi
-        fi        
-        chkconfig --add httpd
-	chkconfig httpd on
-        service httpd stop
-        service httpd start
-        ;;
-    *)
-        ;;
-        
-esac
+#    debian)
+#        if [ ! -f /etc/apache2/sites-available/railsgun ]
+#        then
+#            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd.debian.conf > /etc/apache2/sites-available/railsgun
+#            sed 's/%HOSTNAME%/'$HOSTNAME'/' config/httpd-vcs.debian.conf > /etc/apache2/sites-available/vcs
+#        fi
+#        a2enmod expires
+#        a2enmod dav_fs
+#        a2enmod auth_mysql
+#        a2ensite railsgun
+#        a2ensite vcs
+#        service apache2 stop
+#        service apache2 start
+#        ;;

@@ -1,0 +1,18 @@
+#!/bin/bash
+echo "*******************************************************"
+echo "  セキュリティの設定"
+echo "*******************************************************"
+echo "アプリケーションを動作させるために、ファイアフォールの設定とSELinuxの無効化を行います。"
+echo "nと答えると手動でセキュリティの設定が必要となります。分らない場合はYと答えてください。"
+echo 
+echo -n "アプリケーションを動作させるためにセキュリティの設定を行いますか?[Y/n]"
+read USE_DISABLE_SECURITY
+if [ ! -f /etc/yum.repos.d/epel.repo ]
+then 
+  rpm -Uvh http://download.fedora.redhat.com/pub/epel/6/x86_64/epel-release-6-5.noarch.rpm
+fi
+yum -y --nogpgcheck install `grep -v "^#" inst-script/rhel6/packages.lst`
+chkconfig  --add mysqld
+chkconfig  mysqld on
+service mysqld start
+

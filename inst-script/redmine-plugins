@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # インストールするディレクトリ名
-DEST_NAME=(`grep -v "^#" config/redmine-plugins.txt | awk -F, '{print $1}'`)
+DEST_NAME=(`grep -v "^#" config/redmine-plugins.lst | awk -F, '{print $1}'`)
 
 # 展開したアーカイブのディレクトリ名 or タグ名
-DIR_NAME=(`grep -v "^#" config/redmine-plugins.txt | awk -F, '{print $2}'`)
+DIR_NAME=(`grep -v "^#" config/redmine-plugins.lst | awk -F, '{print $2}'`)
 
 # URL
-URL_NAME=(`grep -v "^#" config/redmine-plugins.txt | awk -F, '{print $3}'`)
+URL_NAME=(`grep -v "^#" config/redmine-plugins.lst | awk -F, '{print $3}'`)
 
 for (( i = 0; i < ${#DIR_NAME[@]}; ++i ))
 do
@@ -40,3 +40,19 @@ do
         ;;
     esac
 done
+
+
+## setup plugin
+pushd .
+
+cd $INSTALL_DIR
+
+rake db:migrate_plugins
+rake generate_session_store
+rake config/initializers/session_store.rb
+rake db:migrate
+rake db:migrate:upgrade_plugin_migrations
+rake tmp:cache:clear
+rake tmp:sessions:clear
+rake redmine:backlogs:install task_tracker=4 story_trackers=2 labels=false
+popd
