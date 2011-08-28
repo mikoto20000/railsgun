@@ -54,8 +54,8 @@ Railsgunは、次のRedmineプラグインを同梱しています。
 ## 動作環境
 
  * RHEL6互換環境(OEL,SL,CentOSなど含む)
- * Debian GNU/Linux 6.0
- * Ubuntu 10.10以降
+ * Debian GNU/Linux 6.0(現在は動作せず)
+ * Ubuntu 10.10以降(現在は動作せず)
 
 ## 使い方
 
