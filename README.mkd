@@ -24,6 +24,10 @@ Railsgunは次のような特徴を持っています。
   * Apacheの設定も行ってくれます。RailsアプリをApache上で公開するmod_passengerや
     MySQLに格納されたRedmineの認証情報でSubversionやGitの認証できるようにする
     mod_auth_mysqlの設定も行います。
+ * アジャイル開発に対応
+  * RedmineでスクラムをサポートするBacklogsを標準でインストールしています。簡単にアジャイル開発を始められます。
+  * Hudson/Jenkinsをサポートするプラグインもインストール済みのため、Hudson/Jenkinsとの連携も簡単です。
+  * Code Reviewプラグインにより、コードをコミットしたら自動的にコードレビューのワークフローに載せることもできます。
  * 楽々リポジトリ管理
   * リポジトリの作成コマンドを用意し、リポジトリの作成とWebでの公開が簡単にできます。
   * フックの設定も自動で行ってくれるので、チケットとチェンジログの連携もバッチリです。
@@ -36,10 +40,11 @@ Railsgunは次のような特徴を持っています。
 
 Railsgunは、次のRedmineプラグインを同梱しています。
 
+ * Backlogs
+ * Hudson Plugin
+ * Code Review
  * Redmine Issue Extensions
   * http://www.r-labs.org/projects/r-labs/wiki/Issue_Extensions
- * Advanced Roadmap
-  * https://ociotec.com/redmine/projects/advanced-roadmap/wiki
  * Redmine MS Projects
   * https://github.com/suer/redmine_ms_projects
  * XLS export plugin
